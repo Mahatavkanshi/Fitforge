@@ -1,3 +1,5 @@
+import { requireCompletedProfile } from "@/lib/auth-guards";
+
 const cues = [
   "Keep your chest up",
   "Align knees with toes",
@@ -5,7 +7,9 @@ const cues = [
   "Breathe out while pushing up",
 ];
 
-export default function TrainerPage() {
+export default async function TrainerPage() {
+  await requireCompletedProfile();
+
   return (
     <div className="grid gap-6 xl:grid-cols-[1.5fr_1fr]">
       <section className="rounded-3xl border border-line bg-surface p-4 sm:p-6">

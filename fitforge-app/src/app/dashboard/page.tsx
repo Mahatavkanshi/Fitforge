@@ -1,3 +1,6 @@
+import { getGoalLabel } from "@/lib/profile";
+import { requireCompletedProfile } from "@/lib/auth-guards";
+
 const stats = [
   { label: "Weekly Sessions", value: "04", helper: "+1 from last week" },
   { label: "Consistency Score", value: "82%", helper: "Strong momentum" },
@@ -5,7 +8,9 @@ const stats = [
   { label: "Recovery Readiness", value: "Good", helper: "Based on workout load" },
 ];
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const { user, profile } = await requireCompletedProfile();
+
   return (
     <div className="space-y-6">
       <section className="rounded-3xl border border-line bg-surface p-6 sm:p-8">
@@ -19,6 +24,9 @@ export default function DashboardPage() {
           This page will become the user home after login. It summarizes activity,
           readiness, and workout recommendations.
         </p>
+        <div className="mt-4 rounded-xl border border-orange-100 bg-orange-50/70 p-3 text-sm text-orange-900">
+          Signed in as {user.email}. Goal: {profile.goal ? getGoalLabel(profile.goal) : "General Fitness"}.
+        </div>
       </section>
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">

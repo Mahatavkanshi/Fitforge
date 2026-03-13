@@ -1,4 +1,24 @@
-export default function AuthPage() {
+import { redirect } from "next/navigation";
+import { AuthForm } from "@/components/auth-form";
+import { getProfileByUserId, isProfileComplete } from "@/lib/profile";
+import { getSupabaseConfig } from "@/lib/supabase/config";
+import { createClient } from "@/lib/supabase/server";
+
+export default async function AuthPage() {
+  const supabaseConfig = getSupabaseConfig(false);
+
+  if (supabaseConfig) {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (user) {
+      const profile = await getProfileByUserId(supabase, user.id);
+      redirect(isProfileComplete(profile) ? "/dashboard" : "/onboarding");
+    }
+  }
+
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <section className="space-y-4 rounded-3xl border border-line bg-surface p-6 sm:p-8">
@@ -9,50 +29,24 @@ export default function AuthPage() {
           Welcome to FitForge
         </h1>
         <p className="text-sm leading-6 text-muted sm:text-base">
-          This screen will connect with Supabase Auth in Phase 2. For now, it
-          shows the login and registration layout.
+          Use email authentication to enter FitForge, then complete onboarding so
+          your dashboard and trainer can personalize workouts.
         </p>
 
         <div className="rounded-2xl border border-orange-100 bg-orange-50/70 p-4 text-sm text-orange-900">
           Goal: keep signup simple so users can quickly move to onboarding and
           start their first guided workout.
         </div>
+
+        {!supabaseConfig ? (
+          <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800">
+            Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in
+            .env.local to enable auth.
+          </div>
+        ) : null}
       </section>
 
-      <section className="space-y-6 rounded-3xl border border-line bg-surface p-6 sm:p-8">
-        <div className="space-y-3">
-          <label className="text-sm font-medium text-slate-700" htmlFor="email">
-            Email
-          </label>
-          <input
-            id="email"
-            className="w-full rounded-xl border border-line bg-white px-4 py-3 text-sm outline-none transition focus:border-orange-300"
-            placeholder="you@example.com"
-            type="email"
-          />
-        </div>
-
-        <div className="space-y-3">
-          <label className="text-sm font-medium text-slate-700" htmlFor="password">
-            Password
-          </label>
-          <input
-            id="password"
-            className="w-full rounded-xl border border-line bg-white px-4 py-3 text-sm outline-none transition focus:border-orange-300"
-            placeholder="At least 8 characters"
-            type="password"
-          />
-        </div>
-
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <button className="rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent-strong">
-            Sign In
-          </button>
-          <button className="rounded-xl border border-line bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300">
-            Create Account
-          </button>
-        </div>
-      </section>
+      <AuthForm />
     </div>
   );
 }
