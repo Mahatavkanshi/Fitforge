@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { SignOutButton } from "@/components/sign-out-button";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -46,12 +47,17 @@ export function TopNav() {
             })}
           </nav>
 
-          <Link
-            href="/trainer"
-            className="rounded-full bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-orange-600"
-          >
-            Start Session
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/trainer"
+              className="rounded-full bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-orange-600"
+            >
+              Start Session
+            </Link>
+            <SignOutButton
+              className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-400 disabled:opacity-70"
+            />
+          </div>
         </div>
 
         <nav className="mt-3 flex gap-2 overflow-x-auto pb-1 md:hidden">
