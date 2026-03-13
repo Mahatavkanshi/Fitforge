@@ -1,5 +1,9 @@
 import { redirect } from "next/navigation";
-import { getProfileByUserId, isProfileComplete } from "@/lib/profile";
+import {
+  getProfileByUserId,
+  isProfileComplete,
+  type OnboardingProfile,
+} from "@/lib/profile";
 import { createClient } from "@/lib/supabase/server";
 
 export async function requireCompletedProfile() {
@@ -18,5 +22,5 @@ export async function requireCompletedProfile() {
     redirect("/onboarding");
   }
 
-  return { user, profile };
+  return { user, profile: profile as OnboardingProfile };
 }

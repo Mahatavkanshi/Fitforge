@@ -3,6 +3,9 @@ type SupabaseConfig = {
   anonKey: string;
 };
 
+export function getSupabaseConfig(): SupabaseConfig;
+export function getSupabaseConfig(strict: true): SupabaseConfig;
+export function getSupabaseConfig(strict: false): SupabaseConfig | null;
 export function getSupabaseConfig(strict = true): SupabaseConfig | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
