@@ -4,9 +4,16 @@ import {
   isProfileComplete,
   type OnboardingProfile,
 } from "@/lib/profile";
+import { getSupabaseConfig } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/server";
 
 export async function requireCompletedProfile() {
+  const supabaseConfig = getSupabaseConfig(false);
+
+  if (!supabaseConfig) {
+    redirect("/auth?setup=1");
+  }
+
   const supabase = await createClient();
   const {
     data: { user },
