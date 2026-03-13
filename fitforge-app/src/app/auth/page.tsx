@@ -46,7 +46,15 @@ export default async function AuthPage() {
         ) : null}
       </section>
 
-      <AuthForm />
+      {supabaseConfig ? (
+        <AuthForm />
+      ) : (
+        <section className="space-y-4 rounded-3xl border border-line bg-surface p-6 sm:p-8">
+          <p className="text-sm text-slate-700">
+            Authentication form will appear once Supabase env variables are configured.
+          </p>
+        </section>
+      )}
     </div>
   );
 }
