@@ -107,6 +107,7 @@ export function LivePoseTrainer() {
   const repsInSetRef = useRef(0);
   const totalRepsRef = useRef(0);
   const currentSetRef = useRef(1);
+  const restSecondsRef = useRef(REST_SECONDS);
   const startedAtRef = useRef<number | null>(null);
   const qualityStatsRef = useRef<QualityStats>({ samples: 0, stableSamples: 0 });
 
@@ -119,7 +120,6 @@ export function LivePoseTrainer() {
   const [repsInSet, setRepsInSet] = useState(0);
   const [totalReps, setTotalReps] = useState(0);
   const [restSeconds, setRestSeconds] = useState(REST_SECONDS);
-  const [stage, setStage] = useState<Stage>("up");
   const [kneeAngle, setKneeAngle] = useState(180);
   const [torsoAngle, setTorsoAngle] = useState(180);
   const [formIssues, setFormIssues] = useState<FormIssue[]>([]);
@@ -137,6 +137,10 @@ export function LivePoseTrainer() {
       poseLandmarkerRef.current?.close();
     };
   }, []);
+
+  useEffect(() => {
+    restSecondsRef.current = restSeconds;
+  }, [restSeconds]);
 
   useEffect(() => {
     if (phase !== "rest") {
@@ -206,8 +210,8 @@ export function LivePoseTrainer() {
     setCurrentSet(1);
     setRepsInSet(0);
     setTotalReps(0);
+    restSecondsRef.current = REST_SECONDS;
     setRestSeconds(REST_SECONDS);
-    setStage("up");
     setKneeAngle(180);
     setTorsoAngle(180);
     setFormIssues([]);
@@ -242,6 +246,7 @@ export function LivePoseTrainer() {
     setPhase("rest");
     setCurrentSet(currentSetRef.current);
     setRepsInSet(0);
+    restSecondsRef.current = REST_SECONDS;
     setRestSeconds(REST_SECONDS);
     setCue(cues.rest);
   }
@@ -251,7 +256,7 @@ export function LivePoseTrainer() {
     setSaveMessage(null);
 
     try {
-      const poseLandmarker = await ensureModel();
+      await ensureModel();
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           width: { ideal: 1280 },
@@ -302,7 +307,7 @@ export function LivePoseTrainer() {
           if (lastVideoTimeRef.current !== currentVideo.currentTime) {
             lastVideoTimeRef.current = currentVideo.currentTime;
 
-            const result = poseLandmarker.detectForVideo(currentVideo, performance.now());
+            const result = poseLandmarkerRef.current.detectForVideo(currentVideo, performance.now());
             const drawingUtils = new DrawingUtils(context);
             const pose = result.landmarks[0];
 
@@ -341,7 +346,6 @@ export function LivePoseTrainer() {
 
                 if (averagedKnee < 95 && stageRef.current !== "down") {
                   stageRef.current = "down";
-                  setStage("down");
                 }
 
                 if (averagedKnee > 160 && stageRef.current === "down") {
@@ -349,7 +353,6 @@ export function LivePoseTrainer() {
                   repsInSetRef.current += 1;
                   totalRepsRef.current += 1;
 
-                  setStage("up");
                   setRepsInSet(repsInSetRef.current);
                   setTotalReps(totalRepsRef.current);
 
@@ -370,7 +373,7 @@ export function LivePoseTrainer() {
               }
 
               if (phaseRef.current === "rest") {
-                setCue(`${cues.rest} ${restSeconds}s remaining.`);
+                setCue(`${cues.rest} ${restSecondsRef.current}s remaining.`);
               }
             } else {
               setFormIssues([]);
