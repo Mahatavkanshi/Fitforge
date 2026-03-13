@@ -1,3 +1,6 @@
+import { NutritionSearch } from "@/components/nutrition-search";
+import { requireCompletedProfile } from "@/lib/auth-guards";
+
 const meals = [
   { name: "Breakfast", detail: "Oats, banana, peanut butter", kcal: 420 },
   { name: "Lunch", detail: "Rice, grilled chicken, mixed vegetables", kcal: 610 },
@@ -5,19 +8,39 @@ const meals = [
   { name: "Dinner", detail: "Lentil bowl with paneer and salad", kcal: 540 },
 ];
 
-export default function NutritionPage() {
+function buildDailyTargets(goal: string | null, weightKg: number) {
+  const protein = Math.round(weightKg * 1.8);
+
+  if (goal === "weight_loss") {
+    return { calories: 1900, protein, water: 3.2 };
+  }
+
+  if (goal === "muscle_gain") {
+    return { calories: 2500, protein: Math.round(weightKg * 2), water: 3.4 };
+  }
+
+  if (goal === "endurance") {
+    return { calories: 2300, protein: Math.round(weightKg * 1.7), water: 3.5 };
+  }
+
+  return { calories: 2100, protein, water: 3.0 };
+}
+
+export default async function NutritionPage() {
+  const { profile } = await requireCompletedProfile();
+
+  const targets = buildDailyTargets(profile.goal, profile.weight_kg ?? 70);
+  const goalLabel = (profile.goal ?? "general_fitness").replaceAll("_", " ");
+
   return (
     <div className="space-y-6">
       <section className="rounded-3xl border border-line bg-surface p-6 sm:p-8">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-orange-600">
-          Nutrition Planner
-        </p>
+        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-orange-600">Nutrition Planner</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
           Fuel your training with purpose
         </h1>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-muted sm:text-base">
-          This screen will connect with USDA FoodData API in Phase 5. It already
-          provides the structure for goals, meal suggestions, and macro tracking.
+          Daily targets now adapt to your onboarding profile. Food lookup is connected to USDA FoodData API.
         </p>
       </section>
 
@@ -25,37 +48,28 @@ export default function NutritionPage() {
         <article className="rounded-2xl border border-line bg-surface p-5 sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-lg font-semibold text-slate-900">Daily targets</p>
-            <span className="rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold text-orange-700">
-              Goal: Lean Strength
+            <span className="rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold uppercase text-orange-700">
+              Goal: {goalLabel}
             </span>
           </div>
 
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
             <div className="rounded-xl border border-line bg-white p-4">
               <p className="text-xs uppercase tracking-[0.15em] text-muted">Calories</p>
-              <p className="mt-2 text-2xl font-semibold text-slate-900">2,100</p>
+              <p className="mt-2 text-2xl font-semibold text-slate-900">{targets.calories.toLocaleString()}</p>
             </div>
             <div className="rounded-xl border border-line bg-white p-4">
               <p className="text-xs uppercase tracking-[0.15em] text-muted">Protein</p>
-              <p className="mt-2 text-2xl font-semibold text-slate-900">135 g</p>
+              <p className="mt-2 text-2xl font-semibold text-slate-900">{targets.protein} g</p>
             </div>
             <div className="rounded-xl border border-line bg-white p-4">
               <p className="text-xs uppercase tracking-[0.15em] text-muted">Water</p>
-              <p className="mt-2 text-2xl font-semibold text-slate-900">3.0 L</p>
+              <p className="mt-2 text-2xl font-semibold text-slate-900">{targets.water.toFixed(1)} L</p>
             </div>
           </div>
         </article>
 
-        <article className="rounded-2xl border border-line bg-surface p-5 sm:p-6">
-          <p className="text-lg font-semibold text-slate-900">Food lookup</p>
-          <input
-            className="mt-4 w-full rounded-xl border border-line bg-white px-4 py-3 text-sm outline-none transition focus:border-orange-300"
-            placeholder="Search food item (API in Phase 5)"
-          />
-          <button className="mt-3 w-full rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-accent-strong">
-            Search Nutrition
-          </button>
-        </article>
+        <NutritionSearch />
       </section>
 
       <section className="rounded-2xl border border-line bg-surface p-5 sm:p-6">

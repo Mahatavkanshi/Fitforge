@@ -4,6 +4,7 @@ import { getDashboardMetrics } from "@/lib/dashboard";
 import type { DashboardMetrics } from "@/lib/dashboard";
 import { createClient } from "@/lib/supabase/server";
 import { SignOutButton } from "@/components/sign-out-button";
+import { AiCoachPanel } from "@/components/ai-coach-panel";
 
 export default async function DashboardPage() {
   const { user, profile } = await requireCompletedProfile();
@@ -60,6 +61,7 @@ export default async function DashboardPage() {
 
   const goalKey = profile.goal ?? "general_fitness";
   const todayFocus = focusByGoal[goalKey];
+  const goalLabel = profile.goal ? getGoalLabel(profile.goal) : "General Fitness";
 
   const workoutSummary = metrics.workoutTypes.length
     ? metrics.workoutTypes.map((type) => type.replaceAll("_", " ")).join(", ")
@@ -84,7 +86,7 @@ export default async function DashboardPage() {
           />
         </div>
         <div className="mt-4 rounded-xl border border-orange-100 bg-orange-50/70 p-3 text-sm text-orange-900">
-          Signed in as {user.email}. Goal: {profile.goal ? getGoalLabel(profile.goal) : "General Fitness"}. Form score this week: {metrics.averageFormScore}/100.
+          Signed in as {user.email}. Goal: {goalLabel}. Form score this week: {metrics.averageFormScore}/100.
         </div>
         {metricsError ? <p className="mt-3 text-sm text-rose-700">{metricsError}</p> : null}
       </section>
@@ -117,6 +119,8 @@ export default async function DashboardPage() {
           <p className="mt-3 text-sm text-muted">Save sessions from Live Trainer to keep this panel updated.</p>
         </article>
       </section>
+
+      <AiCoachPanel goalLabel={goalLabel} />
     </div>
   );
 }
