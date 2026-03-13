@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { getSupabaseConfig } from "@/lib/supabase/config";
@@ -15,8 +15,34 @@ export function SignOutButton({ className, label = "Sign Out" }: SignOutButtonPr
   const supabaseEnabled = Boolean(getSupabaseConfig(false));
   const supabase = useMemo(() => (supabaseEnabled ? createClient() : null), [supabaseEnabled]);
   const [loading, setLoading] = useState(false);
+  const [hasSession, setHasSession] = useState(false);
 
-  if (!supabase) {
+  useEffect(() => {
+    if (!supabase) {
+      return;
+    }
+
+    let isMounted = true;
+
+    supabase.auth.getSession().then(({ data }) => {
+      if (isMounted) {
+        setHasSession(Boolean(data.session));
+      }
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setHasSession(Boolean(session));
+    });
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
+
+  if (!supabase || !hasSession) {
     return null;
   }
 
