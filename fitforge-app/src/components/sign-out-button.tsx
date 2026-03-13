@@ -47,6 +47,10 @@ export function SignOutButton({ className, label = "Sign Out" }: SignOutButtonPr
   }
 
   async function handleSignOut() {
+    if (!supabase) {
+      return;
+    }
+
     setLoading(true);
 
     await supabase.auth.signOut();

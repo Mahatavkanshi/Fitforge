@@ -1,6 +1,7 @@
 import { getGoalLabel } from "@/lib/profile";
 import { requireCompletedProfile } from "@/lib/auth-guards";
 import { getDashboardMetrics } from "@/lib/dashboard";
+import type { DashboardMetrics } from "@/lib/dashboard";
 import { createClient } from "@/lib/supabase/server";
 import { SignOutButton } from "@/components/sign-out-button";
 
@@ -9,7 +10,7 @@ export default async function DashboardPage() {
   const supabase = await createClient();
 
   let metricsError: string | null = null;
-  let metrics = {
+  let metrics: DashboardMetrics = {
     weeklySessions: 0,
     consistencyScore: 0,
     caloriesBurned: 0,
