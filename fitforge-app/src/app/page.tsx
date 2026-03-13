@@ -84,7 +84,7 @@ export default function Home() {
             <p className="text-lg font-semibold tracking-tight text-slate-900">{item.title}</p>
             <p className="mt-2 text-sm leading-6 text-muted">{item.description}</p>
             <p className="mt-4 text-sm font-semibold text-orange-600 transition group-hover:text-orange-700">
-              Explore module ->
+              Explore module
             </p>
           </Link>
         ))}
