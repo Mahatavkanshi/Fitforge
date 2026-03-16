@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import heroWorkoutImage from "../../image/Screenshot 2026-03-16 182729.png";
 
 const quickActions = [
   {
@@ -60,16 +62,68 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-orange-100 bg-gradient-to-br from-orange-50 to-white p-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-orange-600">
-              Build Sequence
-            </p>
-            <ol className="mt-4 space-y-3 text-sm text-slate-700">
-              <li>1. Scaffolded Next.js with TypeScript and Tailwind.</li>
-              <li>2. Added global navigation and route structure.</li>
-              <li>3. Designed responsive layouts for each core screen.</li>
-              <li>4. Prepared UI shell for AI, auth, and analytics integration.</li>
-            </ol>
+          <div className="relative overflow-hidden rounded-[2rem] border border-orange-100 bg-[radial-gradient(circle_at_top,#fff8f1_0%,#fff_48%,#fff8f3_100%)] p-5 sm:p-6">
+            <div className="absolute inset-x-6 top-5 flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+              <span>Live Motion</span>
+              <span className="rounded-full bg-white/80 px-3 py-1 text-orange-600 shadow-sm">Form Focus</span>
+            </div>
+
+            <div className="relative mt-10 overflow-hidden rounded-[1.75rem] border border-white/70 bg-[linear-gradient(160deg,#fff_0%,#fffaf5_45%,#fff1e8_100%)] p-4 shadow-[0_24px_80px_rgba(249,115,22,0.14)] sm:p-5">
+              <div className="pointer-events-none absolute -left-10 top-10 h-28 w-28 rounded-full bg-orange-200/50 blur-3xl" />
+              <div className="pointer-events-none absolute -right-10 bottom-0 h-32 w-32 rounded-full bg-emerald-100/70 blur-3xl" />
+
+              <div className="relative grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+                <div className="space-y-4">
+                  <div className="flex items-start justify-between gap-4 lg:block">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-orange-600">
+                        Athlete Preview
+                      </p>
+                      <p className="mt-2 max-w-[14rem] text-sm leading-6 text-slate-600">
+                        A strong visual cue for guided sessions, posture tracking, and high-energy coaching.
+                      </p>
+                    </div>
+                    <div className="rounded-2xl border border-orange-200 bg-white/85 px-3 py-2 text-right shadow-sm backdrop-blur lg:mt-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Studio Mood</p>
+                      <p className="mt-1 text-sm font-semibold text-slate-900">Focused + energetic</p>
+                    </div>
+                  </div>
+
+                  <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+                    <div className="rounded-2xl border border-orange-100 bg-white/90 px-4 py-3 shadow-sm">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Pose Quality</p>
+                      <p className="mt-1 text-lg font-semibold tracking-tight text-slate-900">Real-time form cues</p>
+                    </div>
+                    <div className="rounded-2xl border border-orange-100 bg-white/90 px-4 py-3 shadow-sm">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Energy</p>
+                      <p className="mt-1 text-lg font-semibold tracking-tight text-slate-900">Studio-grade intensity</p>
+                    </div>
+                    <div className="rounded-2xl border border-orange-100 bg-white/90 px-4 py-3 shadow-sm">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Tracking</p>
+                      <p className="mt-1 text-lg font-semibold tracking-tight text-slate-900">Sessions update instantly</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-[1.65rem] border border-orange-100 bg-white p-3 shadow-[0_28px_50px_rgba(15,23,42,0.08)] sm:p-4">
+                  <div className="relative overflow-hidden rounded-[1.35rem] border border-cyan-200/40 bg-[#071822] shadow-[0_24px_60px_rgba(8,145,178,0.16)]">
+                    <Image
+                      src={heroWorkoutImage}
+                      alt="Athlete doing a squat with AI pose estimation overlay"
+                      className="h-auto w-full object-cover"
+                      priority
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(8,23,33,0.06),rgba(6,182,212,0.08),rgba(249,115,22,0.08))]" />
+                  </div>
+
+                  <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                    <span className="rounded-full bg-slate-100 px-3 py-1">Pose estimation</span>
+                    <span className="rounded-full bg-orange-50 px-3 py-1 text-orange-700">AI-guided workout</span>
+                    <span className="rounded-full bg-cyan-50 px-3 py-1 text-cyan-700">Motion tracking</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
