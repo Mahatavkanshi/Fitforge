@@ -45,9 +45,9 @@ export default function Home() {
               />
               <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(8,23,33,0.1),rgba(6,182,212,0.08),rgba(249,115,22,0.08))]" />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-[linear-gradient(180deg,transparent,rgba(3,7,18,0.82))]" />
-              <div className="absolute inset-x-5 bottom-5 rounded-2xl border border-white/15 bg-slate-950/35 p-4 text-white backdrop-blur-sm">
+              <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-white/15 bg-slate-950/35 p-3 text-white backdrop-blur-sm sm:inset-x-5 sm:bottom-5 sm:p-4">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200">AI Workout Vision</p>
-                <p className="mt-2 max-w-md text-xl font-semibold tracking-tight sm:text-2xl">
+                <p className="mt-1.5 max-w-sm text-sm font-semibold tracking-tight sm:text-base">
                   Train with live pose feedback and a studio-grade fitness feel.
                 </p>
               </div>
