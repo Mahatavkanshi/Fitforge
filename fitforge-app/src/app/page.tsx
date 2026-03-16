@@ -40,10 +40,17 @@ export default function Home() {
               <Image
                 src={heroWorkoutImage}
                 alt="Athlete doing a squat with AI pose estimation overlay"
-                className="h-auto w-full object-cover"
+                className="h-[18rem] w-full object-cover object-center sm:h-[22rem]"
                 priority
               />
-              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(8,23,33,0.08),rgba(6,182,212,0.1),rgba(249,115,22,0.08))]" />
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(8,23,33,0.1),rgba(6,182,212,0.08),rgba(249,115,22,0.08))]" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-[linear-gradient(180deg,transparent,rgba(3,7,18,0.82))]" />
+              <div className="absolute inset-x-5 bottom-5 rounded-2xl border border-white/15 bg-slate-950/35 p-4 text-white backdrop-blur-sm">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200">AI Workout Vision</p>
+                <p className="mt-2 max-w-md text-xl font-semibold tracking-tight sm:text-2xl">
+                  Train with live pose feedback and a studio-grade fitness feel.
+                </p>
+              </div>
             </div>
 
             <p className="inline-flex rounded-full bg-accent-soft px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-orange-700">
