@@ -36,6 +36,16 @@ export default function Home() {
       <section className="overflow-hidden rounded-3xl border border-line bg-surface">
         <div className="grid gap-8 p-6 sm:p-10 lg:grid-cols-[1.3fr_1fr] lg:items-end">
           <div className="space-y-5">
+            <div className="relative overflow-hidden rounded-[2rem] border border-cyan-200/40 bg-[#071822] shadow-[0_28px_70px_rgba(8,145,178,0.18)]">
+              <Image
+                src={heroWorkoutImage}
+                alt="Athlete doing a squat with AI pose estimation overlay"
+                className="h-auto w-full object-cover"
+                priority
+              />
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(8,23,33,0.08),rgba(6,182,212,0.1),rgba(249,115,22,0.08))]" />
+            </div>
+
             <p className="inline-flex rounded-full bg-accent-soft px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-orange-700">
               Phase 1 Foundation
             </p>
@@ -105,21 +115,21 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="rounded-[1.65rem] border border-orange-100 bg-white p-3 shadow-[0_28px_50px_rgba(15,23,42,0.08)] sm:p-4">
-                  <div className="relative overflow-hidden rounded-[1.35rem] border border-cyan-200/40 bg-[#071822] shadow-[0_24px_60px_rgba(8,145,178,0.16)]">
-                    <Image
-                      src={heroWorkoutImage}
-                      alt="Athlete doing a squat with AI pose estimation overlay"
-                      className="h-auto w-full object-cover"
-                      priority
-                    />
-                    <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(8,23,33,0.06),rgba(6,182,212,0.08),rgba(249,115,22,0.08))]" />
-                  </div>
-
-                  <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
-                    <span className="rounded-full bg-slate-100 px-3 py-1">Pose estimation</span>
-                    <span className="rounded-full bg-orange-50 px-3 py-1 text-orange-700">AI-guided workout</span>
-                    <span className="rounded-full bg-cyan-50 px-3 py-1 text-cyan-700">Motion tracking</span>
+                <div className="rounded-[1.65rem] border border-orange-100 bg-white p-4 shadow-[0_28px_50px_rgba(15,23,42,0.08)] sm:p-5">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Tracking Stack</p>
+                  <div className="mt-4 space-y-3">
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Pose Estimation</p>
+                      <p className="mt-1 text-lg font-semibold tracking-tight text-slate-900">AI landmarks in motion</p>
+                    </div>
+                    <div className="rounded-2xl border border-orange-100 bg-orange-50/70 px-4 py-3">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-orange-700">AI-Guided Workout</p>
+                      <p className="mt-1 text-lg font-semibold tracking-tight text-slate-900">Live cues while you train</p>
+                    </div>
+                    <div className="rounded-2xl border border-cyan-100 bg-cyan-50/80 px-4 py-3">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-700">Motion Tracking</p>
+                      <p className="mt-1 text-lg font-semibold tracking-tight text-slate-900">Sessions update instantly</p>
+                    </div>
                   </div>
                 </div>
               </div>
